@@ -1,0 +1,68 @@
+{
+  "build": {
+    "beforeDevCommand": "",
+    "beforeBuildCommand": "",
+    "devPath": "index.html",
+    "distDir": ".",
+    "withGlobalTauri": true
+  },
+  "tauri": {
+    "allowlist": {
+      "all": true
+    },
+    "bundle": {
+      "active": true,
+      "category": "Productivity",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "identifier": "com.iamhicks.mind",
+      "longDescription": "Mind - A knowledge management application",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "localhost",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "Knowledge Management App",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "security": {
+      "dangerousDisableAssetCspModification": false,
+      "csp": "default-src 'self' http://localhost:11434; connect-src 'self' http://localhost:11434 https://unpkg.com; script-src 'self' https://unpkg.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: https: blob:; font-src 'self' https://unpkg.com data:;"
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "height": 800,
+        "resizable": true,
+        "title": "Mind",
+        "width": 1200,
+        "minWidth": 800,
+        "minHeight": 600,
+        "center": true,
+        "visible": true,
+        "focus": true
+      }
+    ]
+  }
+}
