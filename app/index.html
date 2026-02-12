@@ -1832,13 +1832,26 @@
             border-left: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: calc(100vh - 50px);
             width: 380px;
             min-width: 300px;
             max-width: 600px;
-            position: relative;
+            position: fixed;
+            right: 0;
+            top: 50px;
+            z-index: 100;
             resize: horizontal;
             overflow: hidden;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .ai-chat-panel.hidden {
+            display: none !important;
+        }
+
+        /* When chat is open, adjust editor margin */
+        body.chat-open .editor-container {
+            margin-right: 380px;
         }
 
         .ai-chat-resize-handle {
@@ -9160,6 +9173,7 @@
                 aiChatToggle.addEventListener('click', () => {
                     aiChatPanel.classList.toggle('hidden');
                     aiChatToggle.classList.toggle('hidden');
+                    document.body.classList.toggle('chat-open', !aiChatPanel.classList.contains('hidden'));
                     if (!aiChatPanel.classList.contains('hidden')) {
                         aiChatInput.focus();
                     }
@@ -9168,6 +9182,7 @@
                 closeAiChat.addEventListener('click', () => {
                     aiChatPanel.classList.add('hidden');
                     aiChatToggle.classList.remove('hidden');
+                    document.body.classList.remove('chat-open');
                 });
 
                 // Clear chat button
