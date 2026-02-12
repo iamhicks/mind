@@ -3831,6 +3831,16 @@
                     this.applyTheme();
                     this.render();
 
+                    // Restore last active note if exists
+                    if (this.activeTabId) {
+                        const note = this.data.notes.find(n => n.id === this.activeTabId);
+                        if (note) {
+                            this.openTabs = [this.activeTabId];
+                            this.selectNote(this.activeTabId);
+                            console.log('Restored last active note:', note.title);
+                        }
+                    }
+
                     // Create welcome note if empty
                     if (this.data.notes.length === 0) {
                         this.createWelcomeNote();
@@ -4009,6 +4019,18 @@
                         this.aiChatHistory = {};
                     }
                 }
+                
+                // Restore active tab and chat note
+                const savedActiveTab = localStorage.getItem('kb_active_tab');
+                if (savedActiveTab) {
+                    this.activeTabId = savedActiveTab;
+                    console.log('Restored active tab:', savedActiveTab);
+                }
+                const savedChatNote = localStorage.getItem('kb_chat_note_id');
+                if (savedChatNote) {
+                    this.currentChatNoteId = savedChatNote;
+                    console.log('Restored chat note:', savedChatNote);
+                }
             }
 
             repairData() {
@@ -4038,6 +4060,9 @@
                     localStorage.setItem('kb_data', JSON.stringify(this.data));
                     // Save AI chat history separately
                     localStorage.setItem('kb_ai_chat_history', JSON.stringify(this.aiChatHistory));
+                    // Save active tab and chat note for restore
+                    localStorage.setItem('kb_active_tab', this.activeTabId || '');
+                    localStorage.setItem('kb_chat_note_id', this.currentChatNoteId || '');
                 } catch (e) {
                     if (e.name === 'QuotaExceededError' || e.message.includes('quota')) {
                         console.error('Storage quota exceeded. Try deleting some notes or images.');
