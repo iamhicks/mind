@@ -3713,6 +3713,10 @@
                 
                 <button class="btn btn-primary" id="verifyLicenseBtn" style="width: 100%; margin-top: 8px;">Verify License</button>
                 
+                <button class="btn btn-secondary" id="skipLicenseBtn" style="width: 100%; margin-top: 8px; font-size: 12px; background: transparent; border: none; color: var(--text-tertiary);">
+                    Skip for now (dev mode)
+                </button>
+                
                 <div class="license-info">
                     <a href="https://gumroad.com/l/YOUR_PRODUCT" target="_blank" id="buyLicenseLink">Buy a license →</a>
                 </div>
@@ -3970,6 +3974,14 @@
                 document.getElementById('licenseKeyInput').onkeypress = (e) => {
                     if (e.key === 'Enter') this.verifyLicense();
                 };
+                // Add skip button handler
+                const skipBtn = document.getElementById('skipLicenseBtn');
+                if (skipBtn) {
+                    skipBtn.onclick = () => {
+                        document.getElementById('licenseModal').style.display = 'none';
+                        this.app.init();
+                    };
+                }
             }
 
             async verifyLicense() {
