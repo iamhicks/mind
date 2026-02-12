@@ -1846,10 +1846,10 @@
 
         .ai-chat-scroll-container {
             flex: 1;
-            overflow-y: auto;
             display: flex;
             flex-direction: column;
             min-height: 0;
+            overflow: hidden;
         }
 
         .ai-chat-panel.hidden {
@@ -1912,6 +1912,7 @@
         }
 
         .ai-chat-messages {
+            flex: 1;
             overflow-y: auto;
             padding: 16px 20px;
             display: flex;
