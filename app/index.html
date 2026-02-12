@@ -6914,6 +6914,17 @@
                         md += `Tags: ${note.tags.join(', ')}\n\n`;
                     }
                     md += this.htmlToMarkdown(note.content);
+                    
+                    // Add chat history if exists
+                    const chatHistory = this.aiChatHistory[note.id];
+                    if (chatHistory && chatHistory.length > 0) {
+                        md += '\n\n### AI Chat History\n\n';
+                        chatHistory.forEach(msg => {
+                            const role = msg.role === 'user' ? '**You:**' : '**AI:**';
+                            md += `${role} ${msg.content}\n\n`;
+                        });
+                    }
+                    
                     md += '\n\n---\n\n';
                 });
 
