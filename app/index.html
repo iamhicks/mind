@@ -3952,6 +3952,12 @@
             }
 
             async checkLicense() {
+                // Dev bypass from localStorage
+                if (localStorage.getItem('mind_dev_bypass') === 'true') {
+                    console.log('License: dev bypass enabled');
+                    this.app.init();
+                    return true;
+                }
                 if (this.isVerified && this.licenseKey && this.lastVerified) {
                     const daysSince = (Date.now() - new Date(this.lastVerified)) / (1000 * 60 * 60 * 24);
                     if (daysSince < 7) {
@@ -10595,7 +10601,24 @@
                 const app = new KnowledgeBase();
             }
         });
-        licenseManager.checkLicense();
+
+        // Dev bypass: Add ?dev=1 to URL to skip license
+        if (window.location.search.includes('dev=1')) {
+            console.log('Dev mode: skipping license check');
+            licenseManager.app.init();
+        } else {
+            licenseManager.checkLicense().catch(err => {
+                console.error('License check failed:', err);
+                // Fallback: show modal anyway
+                licenseManager.showLicenseDialog();
+            });
+        }
+        // Emergency console command to fix blank screen
+        window.fixMind = () => {
+            localStorage.setItem('mind_dev_bypass', 'true');
+            location.reload();
+        };
+        console.log('MIND loaded. If stuck on blank screen, type: fixMind()');
     </script>
 </body>
 </html>
