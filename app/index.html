@@ -1842,7 +1842,14 @@
             z-index: 100;
             resize: horizontal;
             overflow: hidden;
-            justify-content: space-between;
+        }
+
+        .ai-chat-scroll-container {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .ai-chat-panel.hidden {
@@ -1905,7 +1912,6 @@
         }
 
         .ai-chat-messages {
-            flex: 1;
             overflow-y: auto;
             padding: 16px 20px;
             display: flex;
@@ -3455,11 +3461,13 @@
                             </button>
                         </div>
                     </div>
-                    <div class="ai-chat-messages" id="aiChatMessages">
+                    <div class="ai-chat-scroll-container">
+                        <div class="ai-chat-messages" id="aiChatMessages">
                         <div class="ai-chat-empty">
                             <i class="ph ph-robot"></i>
                             <div>Start a conversation with AI</div>
                             <div style="font-size: 12px; margin-top: 8px;">Ask questions, get help writing, or brainstorm ideas</div>
+                        </div>
                         </div>
                     </div>
                     <div class="ai-chat-input-area">
