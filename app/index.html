@@ -1988,6 +1988,10 @@
             opacity: 1;
         }
 
+        .ai-chat-message.typing {
+            margin-bottom: 30px;
+        }
+
         .ai-chat-message.typing .ai-chat-bubble {
             display: flex;
             align-items: center;
@@ -9846,7 +9850,6 @@
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'ai-chat-message assistant typing';
                 messageDiv.id = id;
-                messageDiv.style.marginBottom = '20px';
                 
                 const bubbleDiv = document.createElement('div');
                 bubbleDiv.className = 'ai-chat-bubble';
