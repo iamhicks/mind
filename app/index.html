@@ -1826,30 +1826,28 @@
             background: rgba(10, 132, 255, 0.2);
         }
 
-        /* ==================== AI CHAT PANEL ==================== */
+        /* ==================== AI CHAT PANEL (SIDEBAR STYLE) ==================== */
         .ai-chat-panel {
             background: var(--bg-primary);
-            border-top: 1px solid var(--border);
+            border-left: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            height: 450px;
-            max-height: 70vh;
-            min-height: 200px;
-            resize: vertical;
-            overflow: auto;
+            height: 100%;
+            width: 380px;
+            min-width: 300px;
+            max-width: 600px;
             position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
+            resize: horizontal;
+            overflow: hidden;
         }
 
         .ai-chat-resize-handle {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            height: 6px;
-            cursor: ns-resize;
+            bottom: 0;
+            width: 6px;
+            cursor: ew-resize;
             background: transparent;
             z-index: 10;
         }
@@ -1863,17 +1861,16 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 20px;
+            padding: 16px 20px;
             border-bottom: 1px solid var(--border);
             background: var(--bg-primary);
+            flex-shrink: 0;
         }
 
         .ai-chat-title {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-tertiary);
+            color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1918,10 +1915,10 @@
         }
 
         .ai-chat-bubble {
-            max-width: 85%;
+            max-width: 90%;
             padding: 10px 14px;
             border-radius: 18px;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.5;
         }
 
