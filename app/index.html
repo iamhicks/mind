@@ -4022,11 +4022,13 @@
                 
                 // Restore active tab and chat note
                 const savedActiveTab = localStorage.getItem('kb_active_tab');
+                console.log('Loading active tab from storage:', savedActiveTab);
                 if (savedActiveTab) {
                     this.activeTabId = savedActiveTab;
                     console.log('Restored active tab:', savedActiveTab);
                 }
                 const savedChatNote = localStorage.getItem('kb_chat_note_id');
+                console.log('Loading chat note from storage:', savedChatNote);
                 if (savedChatNote) {
                     this.currentChatNoteId = savedChatNote;
                     console.log('Restored chat note:', savedChatNote);
@@ -4063,6 +4065,7 @@
                     // Save active tab and chat note for restore
                     localStorage.setItem('kb_active_tab', this.activeTabId || '');
                     localStorage.setItem('kb_chat_note_id', this.currentChatNoteId || '');
+                    console.log('Saved active tab:', this.activeTabId, 'chat note:', this.currentChatNoteId);
                 } catch (e) {
                     if (e.name === 'QuotaExceededError' || e.message.includes('quota')) {
                         console.error('Storage quota exceeded. Try deleting some notes or images.');
@@ -9657,9 +9660,9 @@
                 if (selection.rangeCount > 0 && editor.contains(selection.anchorNode)) {
                     const range = selection.getRangeAt(0);
                     
-                    // Create a temporary container
+                    // Create a temporary container with minimal spacing
                     const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = '<br><br>' + htmlContent + '<br><br>';
+                    tempDiv.innerHTML = htmlContent;
                     
                     // Insert each child node
                     const fragment = document.createDocumentFragment();
@@ -9675,8 +9678,8 @@
                     selection.removeAllRanges();
                     selection.addRange(range);
                 } else {
-                    // Fallback: append to end
-                    const separator = editor.innerHTML ? '<br><br><hr><br>' : '';
+                    // Fallback: append to end with minimal spacing
+                    const separator = editor.innerHTML ? '<br>' : '';
                     editor.innerHTML += separator + htmlContent;
                 }
                 
