@@ -2158,6 +2158,52 @@
             background: var(--bg-tertiary);
         }
 
+        /* Summary Panel Styling */
+        #summaryText {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.7;
+        }
+
+        #summaryText h1,
+        #summaryText h2,
+        #summaryText h3 {
+            margin: 16px 0 8px 0;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        #summaryText h1 { font-size: 18px; }
+        #summaryText h2 { font-size: 16px; }
+        #summaryText h3 { font-size: 14px; }
+
+        #summaryText p {
+            margin: 8px 0;
+        }
+
+        #summaryText ul,
+        #summaryText ol {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        #summaryText li {
+            margin: 4px 0;
+        }
+
+        #summaryText strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        #summaryText code {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+        }
+
         .backlink-icon {
             color: var(--text-tertiary);
         }
@@ -3321,12 +3367,12 @@
                                     <i class="ph ph-sparkle"></i> AI Summary
                                 </button>
                             </div>
-                            <div id="summaryContent" style="padding: 16px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                            <div id="summaryContent" style="padding: 16px; color: var(--text-secondary); font-size: 14px; line-height: 1.6; white-space: pre-wrap;">
                                 <div id="summaryEmptyState">
                                     <p style="font-style: italic; color: var(--text-tertiary);">No summary yet. Click "AI Summary" to generate one from your note content.</p>
                                 </div>
                                 <div id="summaryResult" style="display: none;">
-                                    <div id="summaryText"></div>
+                                    <div id="summaryText" style="white-space: pre-wrap; word-wrap: break-word;"></div>
                                     <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
                                         <small id="summaryFooter" style="color: var(--text-tertiary);">
                                             <i class="ph ph-info"></i> <span id="summaryModeText">Demo mode: Summary generated from keywords</span>
@@ -9394,22 +9440,31 @@
                     prompt = noteContext + 'User: ' + message + '\n\nAssistant:';
                 }
                 
-                const response = await fetch('/ollama/api/generate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        model: model,
-                        prompt: prompt,
-                        stream: false
-                    })
-                });
+                console.log('Sending to Ollama:', { model, promptLength: prompt.length });
+                
+                try {
+                    const response = await fetch('/ollama/api/generate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            model: model,
+                            prompt: prompt,
+                            stream: false
+                        })
+                    });
 
-                if (!response.ok) {
-                    throw new Error('Failed to get response from Ollama');
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('Ollama error response:', errorText);
+                        throw new Error(`Failed to get response from Ollama: ${response.status} ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    return data.response;
+                } catch (error) {
+                    console.error('Ollama request failed:', error);
+                    throw error;
                 }
-
-                const data = await response.json();
-                return data.response;
             }
 
             async sendToCloudAPI(message) {
