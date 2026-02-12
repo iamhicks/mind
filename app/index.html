@@ -1828,27 +1828,28 @@
 
         /* ==================== AI CHAT PANEL (SIDEBAR STYLE) ==================== */
         .ai-chat-panel {
-            background: var(--bg-primary);
-            border-left: 1px solid var(--border);
-            height: calc(100vh - 50px);
-            width: 380px;
-            min-width: 300px;
-            max-width: 600px;
-            position: fixed;
-            right: 0;
-            top: 50px;
-            z-index: 100;
-            resize: horizontal;
-            overflow: hidden;
-            position: relative;
+            display: none;
         }
 
         .ai-chat-scroll-container {
-            height: calc(100% - 140px);
+            position: fixed;
+            top: 110px;
+            right: 0;
+            width: 380px;
+            height: calc(100vh - 110px - 140px);
             overflow-y: auto;
+            background: var(--bg-primary);
+            border-left: 1px solid var(--border);
         }
 
         .ai-chat-panel.hidden {
+            display: none !important;
+        }
+
+        /* Hide fixed chat elements when panel is hidden */
+        body:not(.chat-open) .ai-chat-header,
+        body:not(.chat-open) .ai-chat-scroll-container,
+        body:not(.chat-open) .ai-chat-input-area {
             display: none !important;
         }
 
@@ -1879,8 +1880,15 @@
             justify-content: space-between;
             padding: 16px 20px;
             border-bottom: 1px solid var(--border);
+            border-left: 1px solid var(--border);
             background: var(--bg-primary);
-            flex-shrink: 0;
+            position: fixed;
+            top: 50px;
+            right: 0;
+            width: 380px;
+            height: 60px;
+            box-sizing: border-box;
+            z-index: 10;
         }
 
         .ai-chat-title {
@@ -2003,13 +2011,15 @@
             flex-direction: column;
             gap: 8px;
             border-top: 1px solid var(--border);
+            border-left: 1px solid var(--border);
             position: fixed;
             bottom: 0;
             right: 0 !important;
             left: auto !important;
             width: 380px;
-            z-index: 101;
+            height: 140px;
             box-sizing: border-box;
+            z-index: 10;
         }
 
         .ai-chat-input-wrapper {
