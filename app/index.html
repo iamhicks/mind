@@ -2006,7 +2006,9 @@
             gap: 8px;
             border-top: 1px solid var(--border);
             flex-shrink: 0;
-            margin-top: auto;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
         }
 
         .ai-chat-input-wrapper {
@@ -9276,6 +9278,8 @@
 
                         if (provider === 'ollama') {
                             response = await this.sendToOllama(message);
+                            // Mark Ollama as ready if successful
+                            if (response) this.ollamaReady = true;
                         } else if (provider === 'cloud' || provider === 'openai' || provider === 'custom') {
                             response = await this.sendToCloudAPI(message);
                         }
