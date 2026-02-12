@@ -1538,6 +1538,7 @@
             overflow-wrap: break-word;
             resize: none;
             min-height: 48px;
+            height: auto;
         }
 
         .note-title-input::placeholder {
@@ -2064,6 +2065,7 @@
             box-sizing: border-box;
             z-index: 10;
             border-left: 1px solid var(--border);
+            border-top: 1px solid var(--border);
         }
 
         .ai-chat-input-wrapper {
@@ -3324,64 +3326,9 @@
                     </div>
                 </div>
 
-                <!-- Note Menu Dropdown -->
-                <div class="note-menu-dropdown" id="noteMenuDropdown">
-                    <div class="note-menu-fonts">
-                        <div class="note-menu-font-option active" data-font="default">
-                            <div class="note-menu-font-preview">Ag</div>
-                            <div class="note-menu-font-label">Default</div>
-                        </div>
-                        <div class="note-menu-font-option" data-font="serif">
-                            <div class="note-menu-font-preview serif">Ag</div>
-                            <div class="note-menu-font-label">Serif</div>
-                        </div>
-                        <div class="note-menu-font-option" data-font="mono">
-                            <div class="note-menu-font-preview mono">Ag</div>
-                            <div class="note-menu-font-label">Mono</div>
-                        </div>
-                    </div>
-                    <div class="note-menu-divider"></div>
-                    <div class="note-menu-item" data-action="copy">
-                        <span class="note-menu-icon"><i class="ph ph-copy"></i></span>
-                        <span>Copy Page Contents</span>
-                    </div>
-                    <div class="note-menu-item" data-action="duplicate">
-                        <span class="note-menu-icon"><i class="ph ph-copy-simple"></i></span>
-                        <span>Duplicate</span>
-                    </div>
-                    <div class="note-menu-item" data-action="pdf">
-                        <span class="note-menu-icon"><i class="ph ph-file-pdf"></i></span>
-                        <span>Convert to PDF</span>
-                    </div>
-                    <div class="note-menu-item" id="clipWebpageBtn">
-                        <span class="note-menu-icon"><i class="ph ph-globe"></i></span>
-                        <span>Clip Web Page</span>
-                    </div>
-                    <div class="note-menu-divider"></div>
-                    <div class="note-menu-toggle" data-toggle="smallText">
-                        <span class="note-menu-icon"><i class="ph ph-text-t"></i></span>
-                        <span>Small Text</span>
-                        <span class="note-menu-toggle-indicator" id="smallTextToggle">○</span>
-                    </div>
-                    <div class="note-menu-toggle" data-toggle="fullWidth">
-                        <span class="note-menu-icon"><i class="ph ph-arrows-left-right"></i></span>
-                        <span>Full Width</span>
-                        <span class="note-menu-toggle-indicator" id="fullWidthToggle">○</span>
-                    </div>
-                    <div class="note-menu-item" id="versionHistoryBtn">
-                        <span class="note-menu-icon"><i class="ph ph-clock-counter-clockwise"></i></span>
-                        <span>Version History</span>
-                    </div>
-                    <div class="note-menu-divider"></div>
-                    <div class="note-menu-item delete" data-action="delete">
-                        <span class="note-menu-icon"><i class="ph ph-trash"></i></span>
-                        <span>Move to Trash</span>
-                    </div>
-                </div>
-
                 <div class="editor-content-wrapper hidden" id="editorContentWrapper">
                     <div class="editor-content">
-                        <input type="text" class="note-title-input" id="noteTitle" placeholder="Note Title" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">
+                        <textarea class="note-title-input" id="noteTitle" placeholder="Note Title" rows="1" style="resize: none; overflow: hidden;"></textarea>
                         <div class="note-meta">
                             <div class="note-meta-item">
                                 <span><i class="ph ph-calendar-blank"></i></span>
@@ -3398,7 +3345,61 @@
                                 </div>
                             </div>
                             <div style="flex: 1;"></div>
-                            <button class="toolbar-btn" id="moreBtn" title="More" style="padding: 6px 10px; background: transparent; border: 1px solid var(--border); border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 14px;"><i class="ph ph-dots-three"></i></button>
+                            <button class="toolbar-btn" id="moreBtn" title="More" style="padding: 6px 10px; background: transparent; border: 1px solid var(--border); border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 14px; position: relative;"><i class="ph ph-dots-three"></i></button>
+                            <!-- Note Menu Dropdown -->
+                            <div class="note-menu-dropdown" id="noteMenuDropdown" style="top: calc(100% + 4px); right: 0; z-index: 10000;">
+                                <div class="note-menu-fonts">
+                                    <div class="note-menu-font-option active" data-font="default">
+                                        <div class="note-menu-font-preview">Ag</div>
+                                        <div class="note-menu-font-label">Default</div>
+                                    </div>
+                                    <div class="note-menu-font-option" data-font="serif">
+                                        <div class="note-menu-font-preview serif">Ag</div>
+                                        <div class="note-menu-font-label">Serif</div>
+                                    </div>
+                                    <div class="note-menu-font-option" data-font="mono">
+                                        <div class="note-menu-font-preview mono">Ag</div>
+                                        <div class="note-menu-font-label">Mono</div>
+                                    </div>
+                                </div>
+                                <div class="note-menu-divider"></div>
+                                <div class="note-menu-item" data-action="copy">
+                                    <span class="note-menu-icon"><i class="ph ph-copy"></i></span>
+                                    <span>Copy Page Contents</span>
+                                </div>
+                                <div class="note-menu-item" data-action="duplicate">
+                                    <span class="note-menu-icon"><i class="ph ph-copy-simple"></i></span>
+                                    <span>Duplicate</span>
+                                </div>
+                                <div class="note-menu-item" data-action="pdf">
+                                    <span class="note-menu-icon"><i class="ph ph-file-pdf"></i></span>
+                                    <span>Convert to PDF</span>
+                                </div>
+                                <div class="note-menu-item" id="clipWebpageBtn">
+                                    <span class="note-menu-icon"><i class="ph ph-globe"></i></span>
+                                    <span>Clip Web Page</span>
+                                </div>
+                                <div class="note-menu-divider"></div>
+                                <div class="note-menu-toggle" data-toggle="smallText">
+                                    <span class="note-menu-icon"><i class="ph ph-text-t"></i></span>
+                                    <span>Small Text</span>
+                                    <span class="note-menu-toggle-indicator" id="smallTextToggle">○</span>
+                                </div>
+                                <div class="note-menu-toggle" data-toggle="fullWidth">
+                                    <span class="note-menu-icon"><i class="ph ph-arrows-left-right"></i></span>
+                                    <span>Full Width</span>
+                                    <span class="note-menu-toggle-indicator" id="fullWidthToggle">○</span>
+                                </div>
+                                <div class="note-menu-item" id="versionHistoryBtn">
+                                    <span class="note-menu-icon"><i class="ph ph-clock-counter-clockwise"></i></span>
+                                    <span>Version History</span>
+                                </div>
+                                <div class="note-menu-divider"></div>
+                                <div class="note-menu-item delete" data-action="delete">
+                                    <span class="note-menu-icon"><i class="ph ph-trash"></i></span>
+                                    <span>Move to Trash</span>
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- Note Tabs -->
