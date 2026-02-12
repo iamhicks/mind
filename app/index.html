@@ -9225,6 +9225,11 @@
                 // Show toggle button
                 aiChatToggle.classList.remove('hidden');
 
+                // Restore chat messages for current note if any
+                if (this.currentChatNoteId && this.aiChatHistory[this.currentChatNoteId]) {
+                    this.restoreChatMessages(this.currentChatNoteId);
+                }
+
                 // Toggle panel
                 aiChatToggle.addEventListener('click', () => {
                     aiChatPanel.classList.toggle('hidden');
@@ -9316,13 +9321,13 @@
                 });
             }
 
-            addAiChatMessage(role, content) {
+            addAiChatMessage(role, content, save = true) {
                 console.log('addAiChatMessage called:', role, 'currentChatNoteId:', this.currentChatNoteId);
                 console.log('Full aiChatHistory:', JSON.stringify(this.aiChatHistory));
                 const aiChatMessages = document.getElementById('aiChatMessages');
                 
-                // Store in conversation history for current note
-                if (this.currentChatNoteId) {
+                // Store in conversation history for current note (only if save is true)
+                if (save && this.currentChatNoteId) {
                     // Create a NEW array if doesn't exist (don't share references!)
                     if (!this.aiChatHistory[this.currentChatNoteId]) {
                         this.aiChatHistory[this.currentChatNoteId] = [];
@@ -9341,7 +9346,7 @@
                     
                     // Persist chat history
                     this.saveData();
-                } else {
+                } else if (save) {
                     console.log('Message NOT saved - currentChatNoteId is null!');
                 }
                 
@@ -9669,6 +9674,24 @@
                 }
                 
                 this.showToast('Conversation cleared', 'success');
+            }
+
+            restoreChatMessages(noteId) {
+                const aiChatMessages = document.getElementById('aiChatMessages');
+                if (!aiChatMessages || !noteId) return;
+                
+                const history = this.aiChatHistory[noteId] || [];
+                if (history.length === 0) return;
+                
+                // Clear current messages
+                aiChatMessages.innerHTML = '';
+                
+                // Restore each message
+                history.forEach(msg => {
+                    this.addAiChatMessage(msg.role, msg.content, false); // false = don't save again
+                });
+                
+                console.log('Restored', history.length, 'messages for note:', noteId);
             }
 
             showAiChatTyping() {
