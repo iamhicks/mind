@@ -1840,6 +1840,7 @@
             overflow-y: auto;
             background: var(--bg-primary);
             border-left: 1px solid var(--border);
+            padding-bottom: 20px;
         }
 
         .ai-chat-panel.hidden {
@@ -9844,6 +9845,7 @@
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'ai-chat-message assistant typing';
                 messageDiv.id = id;
+                messageDiv.style.marginBottom = '20px';
                 
                 const bubbleDiv = document.createElement('div');
                 bubbleDiv.className = 'ai-chat-bubble';
