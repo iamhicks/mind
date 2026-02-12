@@ -1846,11 +1846,17 @@
             display: none !important;
         }
 
-        /* Hide fixed chat elements when panel is hidden */
-        body:not(.chat-open) .ai-chat-header,
-        body:not(.chat-open) .ai-chat-scroll-container,
-        body:not(.chat-open) .ai-chat-input-area {
+        /* Hide chat elements when panel is closed */
+        .ai-chat-header,
+        .ai-chat-scroll-container,
+        .ai-chat-input-area {
             display: none !important;
+        }
+
+        body.chat-open .ai-chat-header,
+        body.chat-open .ai-chat-scroll-container,
+        body.chat-open .ai-chat-input-area {
+            display: flex !important;
         }
 
         /* When chat is open, adjust editor margin */
@@ -3453,42 +3459,42 @@
                 <!-- AI Chat Panel -->
                 <div class="ai-chat-panel hidden" id="aiChatPanel">
                     <div class="ai-chat-resize-handle" id="aiChatResizeHandle"></div>
-                    <div class="ai-chat-header">
-                        <div class="ai-chat-title">
-                            <i class="ph ph-robot"></i>
-                            AI Assistant
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="ai-chat-close" id="clearAiChat" title="Clear conversation">
-                                <i class="ph ph-trash"></i>
-                            </button>
-                            <button class="ai-chat-close" id="closeAiChat" title="Close">
-                                <i class="ph ph-x"></i>
-                            </button>
-                        </div>
+                </div>
+                <div class="ai-chat-header" id="aiChatHeader">
+                    <div class="ai-chat-title">
+                        <i class="ph ph-robot"></i>
+                        AI Assistant
                     </div>
-                    <div class="ai-chat-scroll-container">
-                        <div class="ai-chat-messages" id="aiChatMessages">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="ai-chat-close" id="clearAiChat" title="Clear conversation">
+                            <i class="ph ph-trash"></i>
+                        </button>
+                        <button class="ai-chat-close" id="closeAiChat" title="Close">
+                            <i class="ph ph-x"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="ai-chat-scroll-container" id="aiChatScrollContainer">
+                    <div class="ai-chat-messages" id="aiChatMessages">
                         <div class="ai-chat-empty">
                             <i class="ph ph-robot"></i>
                             <div>Start a conversation with AI</div>
                             <div style="font-size: 12px; margin-top: 8px;">Ask questions, get help writing, or brainstorm ideas</div>
                         </div>
+                    </div>
+                </div>
+                <div class="ai-chat-input-area" id="aiChatInputArea">
+                    <div class="ai-chat-input-wrapper">
+                        <div class="ai-chat-input-row">
+                            <textarea class="ai-chat-input" id="aiChatInput" placeholder="Ask anything..." rows="1"></textarea>
+                            <button class="ai-chat-send" id="aiChatSend">
+                                <i class="ph ph-paper-plane-right"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="ai-chat-input-area">
-                        <div class="ai-chat-input-wrapper">
-                            <div class="ai-chat-input-row">
-                                <textarea class="ai-chat-input" id="aiChatInput" placeholder="Ask anything..." rows="1"></textarea>
-                                <button class="ai-chat-send" id="aiChatSend">
-                                    <i class="ph ph-paper-plane-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <small id="aiChatProviderStatus" style="color: var(--text-tertiary); font-size: 11px; text-align: center; margin-top: 8px;">
-                            <!-- Will be populated by JS -->
-                        </small>
-                    </div>
+                    <small id="aiChatProviderStatus" style="color: var(--text-tertiary); font-size: 11px; text-align: center; margin-top: 8px;">
+                        <!-- Will be populated by JS -->
+                    </small>
                 </div>
 
                 <!-- AI Chat Toggle Button -->
