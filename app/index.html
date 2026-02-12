@@ -1842,7 +1842,6 @@
             z-index: 100;
             resize: horizontal;
             overflow: hidden;
-            box-shadow: -4px 0 20px rgba(0,0,0,0.1);
         }
 
         .ai-chat-panel.hidden {
@@ -2004,6 +2003,8 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
         }
 
         .ai-chat-input-wrapper {
@@ -9212,9 +9213,9 @@
                     // Show typing indicator
                     const typingId = this.showAiChatTyping();
 
-                    // Show loading
+                    // Show loading - spinning robot head
                     aiChatSend.disabled = true;
-                    aiChatSend.innerHTML = '<i class="ph ph-spinner ph-spin"></i>';
+                    aiChatSend.innerHTML = '<i class="ph ph-robot ph-spin"></i>';
 
                     try {
                         const settings = JSON.parse(localStorage.getItem('kb_ai_settings') || '{}');
