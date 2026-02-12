@@ -1833,10 +1833,10 @@
 
         .ai-chat-scroll-container {
             position: fixed;
-            top: 110px;
+            top: 100px;
             right: 0;
             width: 380px;
-            height: calc(100vh - 110px - 140px);
+            height: calc(100vh - 100px - 140px);
             overflow-y: auto;
             background: var(--bg-primary);
             border-left: 1px solid var(--border);
@@ -1894,7 +1894,7 @@
             border-left: 1px solid var(--border);
             background: var(--bg-primary);
             position: fixed;
-            top: 50px;
+            top: 40px;
             right: 0;
             width: 380px;
             height: 60px;
@@ -2919,18 +2919,16 @@
 
         <!-- Main Content -->
         <main class="main" id="main">
-            <header class="main-header">
-                <div class="header-left">
-                    <button class="btn btn-icon hide-desktop" id="menuBtn" title="Menu" style="color: var(--text-secondary);"><i class="ph ph-list"></i></button>
-                    <div class="breadcrumb" id="breadcrumb">
-                        <span class="breadcrumb-item" data-folder="root">All Notes</span>
-                    </div>
+            <!-- Tabs Bar - Now at top -->
+            <div class="tabs-bar" id="tabsBar">
+                <div class="sidebar-toggle-tab" id="sidebarToggleTab" title="Toggle Sidebar">
+                    <i class="ph ph-sidebar"></i>
                 </div>
-                <div class="header-right">
-                    <span class="header-title" id="headerTitle"></span>
-                    <button class="btn btn-icon" id="themeBtn" title="Toggle Theme" style="color: var(--text-secondary);"><i class="ph ph-moon"></i></button>
-                </div>
-            </header>
+                <div class="tabs-container" id="tabsContainer"></div>
+                <button class="tabs-new-btn" id="newTabBtn" title="New Note"><i class="ph ph-plus"></i></button>
+                <div style="flex: 1;"></div>
+                <button class="btn btn-icon" id="themeBtn" title="Toggle Theme" style="color: var(--text-secondary); padding: 6px 10px; margin-right: 12px;"><i class="ph ph-moon"></i></button>
+            </div>
 
             <!-- AI Suggest Modal -->
             <div class="modal-overlay" id="aiSuggestModal">
@@ -3307,17 +3305,6 @@
                     </div>
                 </div>
 
-                <!-- Tabs Bar -->
-                <div class="tabs-bar hidden" id="tabsBar">
-                    <div class="sidebar-toggle-tab" id="sidebarToggleTab" title="Toggle Sidebar">
-                        <i class="ph ph-sidebar"></i>
-                    </div>
-                    <div class="tabs-container" id="tabsContainer"></div>
-                    <button class="tabs-new-btn" id="newTabBtn" title="New Note"><i class="ph ph-plus"></i></button>
-                    <div style="flex: 1;"></div>
-                    <button class="toolbar-btn" id="moreBtn" title="More" style="padding: 6px 10px; background: transparent; border: 1px solid var(--border); border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 14px; margin-right: 20px; align-self: center;"><i class="ph ph-dots-three"></i></button>
-                </div>
-
                 <!-- Note Menu Dropdown -->
                 <div class="note-menu-dropdown" id="noteMenuDropdown">
                     <div class="note-menu-fonts">
@@ -3391,6 +3378,8 @@
                                     <div class="tag-autocomplete" id="tagAutocomplete" style="display: none;"></div>
                                 </div>
                             </div>
+                            <div style="flex: 1;"></div>
+                            <button class="toolbar-btn" id="moreBtn" title="More" style="padding: 6px 10px; background: transparent; border: 1px solid var(--border); border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 14px;"><i class="ph ph-dots-three"></i></button>
                         </div>
                         
                         <!-- Note Tabs -->
