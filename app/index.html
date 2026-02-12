@@ -728,15 +728,14 @@
         /* ==================== NOTE MENU DROPDOWN ==================== */
         .note-menu-dropdown {
             position: absolute;
-            top: 100%;
+            top: calc(100% + 4px);
             right: 0;
-            margin-top: 4px;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             min-width: 220px;
-            z-index: 1000;
+            z-index: 10000;
             display: none;
             padding: 8px 0;
         }
@@ -2065,7 +2064,6 @@
             box-sizing: border-box;
             z-index: 10;
             border-left: 1px solid var(--border);
-            box-shadow: 0 -1px 0 var(--border);
         }
 
         .ai-chat-input-wrapper {
@@ -3383,7 +3381,7 @@
 
                 <div class="editor-content-wrapper hidden" id="editorContentWrapper">
                     <div class="editor-content">
-                        <input type="text" class="note-title-input" id="noteTitle" placeholder="Note Title">
+                        <input type="text" class="note-title-input" id="noteTitle" placeholder="Note Title" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">
                         <div class="note-meta">
                             <div class="note-meta-item">
                                 <span><i class="ph ph-calendar-blank"></i></span>
@@ -3506,7 +3504,7 @@
                         AI Assistant
                     </div>
                     <div style="display: flex; gap: 8px;">
-                        <button class="ai-chat-close" id="clearAiChat" title="Clear conversation" onclick="if(confirm('Are you sure you want to delete this conversation?')){window.app.clearAiChat();}">
+                        <button class="ai-chat-close" id="clearAiChat" title="Clear conversation">
                             <i class="ph ph-trash"></i>
                         </button>
                         <button class="ai-chat-close" id="closeAiChat" title="Close">
@@ -9402,19 +9400,9 @@
                         e.preventDefault();
                         e.stopPropagation();
                         console.log('Clear chat button clicked');
-                        if (typeof this.showConfirmModal === 'function') {
-                            this.showConfirmModal(
-                                'Clear Conversation',
-                                'Are you sure you want to delete this conversation? This cannot be restored.',
-                                () => {
-                                    this.clearAiChat();
-                                }
-                            );
-                        } else {
-                            // Fallback if modal function not available
-                            if (confirm('Are you sure you want to delete this conversation? This cannot be restored.')) {
-                                this.clearAiChat();
-                            }
+                        // Use native confirm for now
+                        if (confirm('Are you sure you want to delete this conversation? This cannot be restored.')) {
+                            this.clearAiChat();
                         }
                     });
                 }
