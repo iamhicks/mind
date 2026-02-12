@@ -3976,6 +3976,22 @@
 
             loadData() {
                 console.log('=== loadData() START ===');
+                
+                // FIRST: Load active tab and chat note (before anything that calls saveData)
+                const savedActiveTab = localStorage.getItem('kb_active_tab');
+                console.log('Loading active tab from storage:', savedActiveTab);
+                if (savedActiveTab) {
+                    this.activeTabId = savedActiveTab;
+                    console.log('Restored active tab:', savedActiveTab);
+                }
+                const savedChatNote = localStorage.getItem('kb_chat_note_id');
+                console.log('Loading chat note from storage:', savedChatNote);
+                if (savedChatNote) {
+                    this.currentChatNoteId = savedChatNote;
+                    console.log('Restored chat note:', savedChatNote);
+                }
+                
+                // Load main data
                 const saved = localStorage.getItem('kb_data');
                 if (saved) {
                     try {
@@ -4027,19 +4043,6 @@
                     console.log('No savedChatHistory found in localStorage');
                 }
                 
-                // Restore active tab and chat note
-                const savedActiveTab = localStorage.getItem('kb_active_tab');
-                console.log('Loading active tab from storage:', savedActiveTab);
-                if (savedActiveTab) {
-                    this.activeTabId = savedActiveTab;
-                    console.log('Restored active tab:', savedActiveTab);
-                }
-                const savedChatNote = localStorage.getItem('kb_chat_note_id');
-                console.log('Loading chat note from storage:', savedChatNote);
-                if (savedChatNote) {
-                    this.currentChatNoteId = savedChatNote;
-                    console.log('Restored chat note:', savedChatNote);
-                }
                 console.log('=== loadData() END ===');
             }
 
