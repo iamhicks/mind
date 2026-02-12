@@ -3975,6 +3975,7 @@
             // ==================== DATA PERSISTENCE ====================
 
             loadData() {
+                console.log('=== loadData() START ===');
                 const saved = localStorage.getItem('kb_data');
                 if (saved) {
                     try {
@@ -4009,15 +4010,21 @@
                 }
                 
                 // Load AI chat history
+                console.log('About to load AI chat history...');
                 const savedChatHistory = localStorage.getItem('kb_ai_chat_history');
+                console.log('savedChatHistory raw:', savedChatHistory);
+                console.log('savedChatHistory type:', typeof savedChatHistory);
                 if (savedChatHistory) {
                     try {
                         this.aiChatHistory = JSON.parse(savedChatHistory);
                         console.log('Loaded AI chat history:', Object.keys(this.aiChatHistory).length, 'conversations');
+                        console.log('History keys:', Object.keys(this.aiChatHistory));
                     } catch (e) {
                         console.error('Failed to load AI chat history:', e);
                         this.aiChatHistory = {};
                     }
+                } else {
+                    console.log('No savedChatHistory found in localStorage');
                 }
                 
                 // Restore active tab and chat note
@@ -4033,6 +4040,7 @@
                     this.currentChatNoteId = savedChatNote;
                     console.log('Restored chat note:', savedChatNote);
                 }
+                console.log('=== loadData() END ===');
             }
 
             repairData() {
