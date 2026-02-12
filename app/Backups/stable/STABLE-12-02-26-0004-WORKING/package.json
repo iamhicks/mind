@@ -1,0 +1,42 @@
+{
+  "name": "mind-electron",
+  "version": "1.0.0",
+  "description": "MIND AI - Your private, offline knowledge management system",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win"
+  },
+  "keywords": ["notes", "ai", "knowledge", "offline"],
+  "author": "i_am_Hicks",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^40.2.1",
+    "electron-builder": "^25.1.7"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "http-proxy-middleware": "^3.0.5"
+  },
+  "build": {
+    "appId": "com.iamhicks.mind",
+    "productName": "MIND AI",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "app/**/*"
+    ]
+  }
+}
