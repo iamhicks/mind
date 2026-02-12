@@ -2429,73 +2429,6 @@
             box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
         }
 
-        /* ==================== LICENSE MODAL ==================== */
-        .license-modal .modal-content {
-            max-width: 420px;
-            text-align: center;
-        }
-
-        .license-modal .modal-body {
-            padding: 32px 24px;
-        }
-
-        .license-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-
-        .license-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 16px;
-            text-align: center;
-            letter-spacing: 1px;
-            margin: 16px 0;
-            outline: none;
-            transition: all var(--transition);
-        }
-
-        .license-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(46, 170, 220, 0.1);
-        }
-
-        .license-input.error {
-            border-color: var(--danger);
-        }
-
-        .license-error {
-            color: var(--danger);
-            font-size: 13px;
-            margin-top: 8px;
-            min-height: 20px;
-        }
-
-        .license-success {
-            color: var(--success);
-            font-size: 13px;
-            margin-top: 8px;
-        }
-
-        .license-info {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            margin-top: 16px;
-        }
-
-        .license-info a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .license-info a:hover {
-            text-decoration: underline;
-        }
-
         /* ==================== SEARCH RESULTS ==================== */
         .search-results {
             position: absolute;
@@ -3699,31 +3632,6 @@
         </div>
     </div>
 
-    <!-- License Modal -->
-    <div class="modal-overlay license-modal" id="licenseModal">
-        <div class="modal">
-            <div class="modal-body">
-                <div class="license-icon">🔑</div>
-                <h3 style="margin-bottom: 8px;">Welcome to MIND</h3>
-                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px;">Please enter your license key to continue</p>
-                
-                <input type="text" class="license-input" id="licenseKeyInput" placeholder="MIND-XXXX-XXXX-XXXX" autocomplete="off">
-                <div class="license-error" id="licenseError"></div>
-                <div class="license-success" id="licenseSuccess"></div>
-                
-                <button class="btn btn-primary" id="verifyLicenseBtn" style="width: 100%; margin-top: 8px;">Verify License</button>
-                
-                <button class="btn btn-secondary" id="skipLicenseBtn" style="width: 100%; margin-top: 8px; font-size: 12px; background: transparent; border: none; color: var(--text-tertiary);">
-                    Skip for now (dev mode)
-                </button>
-                
-                <div class="license-info">
-                    <a href="https://gumroad.com/l/YOUR_PRODUCT" target="_blank" id="buyLicenseLink">Buy a license →</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Settings Modal -->
     <div class="modal-overlay" id="settingsModal">
         <div class="modal">
@@ -3940,101 +3848,6 @@
         })();
 
         // ==================== KNOWLEDGE BASE APP ====================
-
-        // ==================== LICENSE MANAGER ====================
-        class LicenseManager {
-            constructor(app) {
-                this.app = app;
-                this.productId = '3Tar7lBQcSMJAVsx8nLydw==';
-                this.licenseKey = localStorage.getItem('mind_license_key');
-                this.isVerified = localStorage.getItem('mind_license_verified') === 'true';
-                this.lastVerified = localStorage.getItem('mind_license_date');
-            }
-
-            async checkLicense() {
-                // Dev bypass from localStorage
-                if (localStorage.getItem('mind_dev_bypass') === 'true') {
-                    console.log('License: dev bypass enabled');
-                    this.app.init();
-                    return true;
-                }
-                if (this.isVerified && this.licenseKey && this.lastVerified) {
-                    const daysSince = (Date.now() - new Date(this.lastVerified)) / (1000 * 60 * 60 * 24);
-                    if (daysSince < 7) {
-                        console.log('License verified recently');
-                        return true;
-                    }
-                }
-                this.showLicenseDialog();
-                return false;
-            }
-
-            showLicenseDialog() {
-                const modal = document.getElementById('licenseModal');
-                document.getElementById('licenseKeyInput').value = '';
-                document.getElementById('licenseError').textContent = '';
-                document.getElementById('licenseSuccess').textContent = '';
-                modal.style.display = 'flex';
-                document.getElementById('licenseKeyInput').focus();
-                document.getElementById('verifyLicenseBtn').onclick = () => this.verifyLicense();
-                document.getElementById('licenseKeyInput').onkeypress = (e) => {
-                    if (e.key === 'Enter') this.verifyLicense();
-                };
-                // Add skip button handler
-                const skipBtn = document.getElementById('skipLicenseBtn');
-                if (skipBtn) {
-                    skipBtn.onclick = () => {
-                        document.getElementById('licenseModal').style.display = 'none';
-                        this.app.init();
-                    };
-                }
-            }
-
-            async verifyLicense() {
-                const input = document.getElementById('licenseKeyInput');
-                const errorDiv = document.getElementById('licenseError');
-                const key = input.value.trim().toUpperCase();
-                if (!key || key.length < 8) {
-                    errorDiv.textContent = 'Please enter a valid license key';
-                    return;
-                }
-                try {
-                    const isValid = await this.validateWithGumroad(key);
-                    if (isValid) {
-                        localStorage.setItem('mind_license_key', key);
-                        localStorage.setItem('mind_license_verified', 'true');
-                        localStorage.setItem('mind_license_date', new Date().toISOString());
-                        document.getElementById('licenseSuccess').textContent = 'License verified!';
-                        setTimeout(() => {
-                            document.getElementById('licenseModal').style.display = 'none';
-                            this.app.init();
-                        }, 1000);
-                    } else {
-                        errorDiv.textContent = 'Invalid license key';
-                    }
-                } catch (error) {
-                    if (this.licenseKey === key && this.lastVerified) {
-                        const daysSince = (Date.now() - new Date(this.lastVerified)) / (1000 * 60 * 60 * 24);
-                        if (daysSince < 30) {
-                            document.getElementById('licenseModal').style.display = 'none';
-                            this.app.init();
-                            return;
-                        }
-                    }
-                    errorDiv.textContent = 'Unable to verify. Check connection.';
-                }
-            }
-
-            async validateWithGumroad(licenseKey) {
-                const response = await fetch('https://api.gumroad.com/v2/licenses/verify', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ product_id: this.productId, license_key: licenseKey })
-                });
-                const data = await response.json();
-                return data.success && !data.purchase.refunded && !data.purchase.chargebacked;
-            }
-        }
 
         class KnowledgeBase {
             constructor() {
@@ -10595,30 +10408,7 @@
 
         // ==================== INITIALIZE ====================
 
-        // Check license before starting app
-        const licenseManager = new LicenseManager({
-            init: () => {
-                const app = new KnowledgeBase();
-            }
-        });
-
-        // Dev bypass: Add ?dev=1 to URL to skip license
-        if (window.location.search.includes('dev=1')) {
-            console.log('Dev mode: skipping license check');
-            licenseManager.app.init();
-        } else {
-            licenseManager.checkLicense().catch(err => {
-                console.error('License check failed:', err);
-                // Fallback: show modal anyway
-                licenseManager.showLicenseDialog();
-            });
-        }
-        // Emergency console command to fix blank screen
-        window.fixMind = () => {
-            localStorage.setItem('mind_dev_bypass', 'true');
-            location.reload();
-        };
-        console.log('MIND loaded. If stuck on blank screen, type: fixMind()');
+        const app = new KnowledgeBase();
     </script>
 </body>
 </html>
