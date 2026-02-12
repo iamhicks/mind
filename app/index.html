@@ -5451,7 +5451,6 @@
                 console.log('Loading note content, length:', note.content?.length || 0);
                 console.log('Content preview:', note.content?.substring(0, 200) || 'EMPTY');
                 document.getElementById('wysiwygEditor').innerHTML = note.content || '';
-                document.getElementById('headerTitle').textContent = '';
 
                 // Update date
                 const date = new Date(note.updatedAt);
@@ -5591,7 +5590,6 @@
                 document.getElementById('tabsBar').classList.add('hidden');
                 document.getElementById('editorContentWrapper').classList.add('hidden');
                 document.getElementById('backlinksPanel').classList.add('hidden');
-                document.getElementById('headerTitle').textContent = '';
             }
 
             // ==================== TAG OPERATIONS ====================
@@ -6562,6 +6560,7 @@
 
             renderBreadcrumb() {
                 const breadcrumb = document.getElementById('breadcrumb');
+                if (!breadcrumb) return; // Element removed in new layout
                 if (!this.currentNote) {
                     breadcrumb.innerHTML = '<span class="breadcrumb-item" data-folder="root">All Notes</span>';
                     return;
@@ -6670,7 +6669,8 @@
 
                 // Update header title
                 const folder = this.data.folders.find(f => f.id === folderId);
-                document.getElementById('headerTitle').textContent = folder?.name || '';
+                const headerTitle = document.getElementById('headerTitle');
+                if (headerTitle) headerTitle.textContent = folder?.name || '';
             }
 
             filterByTag(tag) {
@@ -6702,7 +6702,7 @@
                     el.classList.toggle('active', el.dataset.tag === tag);
                 });
 
-                document.getElementById('headerTitle').textContent = `#${tag}`;
+                document.getElementById('headerTitle')?.textContent = `#${tag}`;
 
                 // Re-render tags to show active state
                 this.renderTagsCloud();
