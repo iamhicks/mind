@@ -3977,13 +3977,16 @@
             loadData() {
                 console.log('=== loadData() START ===');
                 
-                // FIRST: Load active tab and chat note (before anything that calls saveData)
+                // FIRST: Load ALL persisted data (before anything that calls saveData)
+                
+                // Load active tab and chat note
                 const savedActiveTab = localStorage.getItem('kb_active_tab');
                 console.log('Loading active tab from storage:', savedActiveTab);
                 if (savedActiveTab) {
                     this.activeTabId = savedActiveTab;
                     console.log('Restored active tab:', savedActiveTab);
                 }
+                
                 const savedChatNote = localStorage.getItem('kb_chat_note_id');
                 console.log('Loading chat note from storage:', savedChatNote);
                 if (savedChatNote) {
@@ -3991,7 +3994,25 @@
                     console.log('Restored chat note:', savedChatNote);
                 }
                 
-                // Load main data
+                // Load AI chat history (CRITICAL: do this BEFORE repairData/saveData!)
+                console.log('About to load AI chat history...');
+                const savedChatHistory = localStorage.getItem('kb_ai_chat_history');
+                console.log('savedChatHistory raw:', savedChatHistory);
+                console.log('savedChatHistory type:', typeof savedChatHistory);
+                if (savedChatHistory) {
+                    try {
+                        this.aiChatHistory = JSON.parse(savedChatHistory);
+                        console.log('Loaded AI chat history:', Object.keys(this.aiChatHistory).length, 'conversations');
+                        console.log('History keys:', Object.keys(this.aiChatHistory));
+                    } catch (e) {
+                        console.error('Failed to load AI chat history:', e);
+                        this.aiChatHistory = {};
+                    }
+                } else {
+                    console.log('No savedChatHistory found in localStorage');
+                }
+                
+                // THEN: Load main data (this calls repairData -> saveData)
                 const saved = localStorage.getItem('kb_data');
                 if (saved) {
                     try {
@@ -4023,24 +4044,6 @@
                             }
                         }
                     }
-                }
-                
-                // Load AI chat history
-                console.log('About to load AI chat history...');
-                const savedChatHistory = localStorage.getItem('kb_ai_chat_history');
-                console.log('savedChatHistory raw:', savedChatHistory);
-                console.log('savedChatHistory type:', typeof savedChatHistory);
-                if (savedChatHistory) {
-                    try {
-                        this.aiChatHistory = JSON.parse(savedChatHistory);
-                        console.log('Loaded AI chat history:', Object.keys(this.aiChatHistory).length, 'conversations');
-                        console.log('History keys:', Object.keys(this.aiChatHistory));
-                    } catch (e) {
-                        console.error('Failed to load AI chat history:', e);
-                        this.aiChatHistory = {};
-                    }
-                } else {
-                    console.log('No savedChatHistory found in localStorage');
                 }
                 
                 console.log('=== loadData() END ===');
