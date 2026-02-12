@@ -1836,7 +1836,7 @@
             top: 110px;
             right: 0;
             width: 380px;
-            height: calc(100vh - 110px - 140px);
+            height: calc(100vh - 110px - 90px);
             overflow-y: auto;
             background: var(--bg-primary);
             border-left: 1px solid var(--border);
@@ -1857,6 +1857,11 @@
         body.chat-open .ai-chat-scroll-container,
         body.chat-open .ai-chat-input-area {
             display: flex !important;
+        }
+
+        /* Hide AI chat toggle button when chat is open */
+        body.chat-open .ai-chat-toggle {
+            display: none !important;
         }
 
         /* When chat is open, adjust editor margin */
@@ -1951,6 +1956,19 @@
             background: var(--bg-sidebar);
             color: var(--text-primary);
             border-radius: 18px 18px 4px 18px;
+            position: relative;
+        }
+
+        .ai-chat-message.user .ai-chat-timestamp {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .ai-chat-message.user:hover .ai-chat-timestamp {
+            opacity: 1;
         }
 
         .ai-chat-message.assistant .ai-chat-bubble {
@@ -2011,19 +2029,17 @@
         }
 
         .ai-chat-input-area {
-            padding: 16px 20px 20px;
+            padding: 12px 20px 8px;
             background: var(--bg-primary);
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            border-top: 1px solid var(--border);
-            border-left: 1px solid var(--border);
+            gap: 4px;
             position: fixed;
             bottom: 0;
             right: 0 !important;
             left: auto !important;
             width: 380px;
-            height: 140px;
+            height: auto;
             box-sizing: border-box;
             z-index: 10;
         }
@@ -3470,7 +3486,7 @@
                             <i class="ph ph-trash"></i>
                         </button>
                         <button class="ai-chat-close" id="closeAiChat" title="Close">
-                            <i class="ph ph-x"></i>
+                            <i class="ph ph-caret-right"></i>
                         </button>
                     </div>
                 </div>
@@ -7455,6 +7471,43 @@
                 setTimeout(() => toast.remove(), 4000);
             }
 
+            showConfirmModal(title, message, onConfirm) {
+                const modal = document.createElement('div');
+                modal.className = 'modal active';
+                modal.style.zIndex = '10000';
+                modal.innerHTML = `
+                    <div class="modal-content" style="max-width: 400px;">
+                        <div class="modal-header">
+                            <h3 class="modal-title">${this.escapeHtml(title)}</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>${this.escapeHtml(message)}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary modal-cancel">Cancel</button>
+                            <button class="btn btn-danger modal-confirm">Delete</button>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(modal);
+
+                const closeModal = () => modal.remove();
+
+                modal.querySelector('.modal-close').addEventListener('click', closeModal);
+                modal.querySelector('.modal-cancel').addEventListener('click', closeModal);
+                modal.querySelector('.modal-confirm').addEventListener('click', () => {
+                    onConfirm();
+                    closeModal();
+                });
+
+                // Close on backdrop click
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
+            }
+
             updateTemplateDropdown() {
                 const select = document.getElementById('templateSelect');
                 const customTemplates = this.data.customTemplates || [];
@@ -9322,7 +9375,13 @@
                 const clearAiChat = document.getElementById('clearAiChat');
                 if (clearAiChat) {
                     clearAiChat.addEventListener('click', () => {
-                        this.clearAiChat();
+                        this.showConfirmModal(
+                            'Clear Conversation',
+                            'Are you sure you want to delete this conversation? This cannot be restored.',
+                            () => {
+                                this.clearAiChat();
+                            }
+                        );
                     });
                 }
 
@@ -9451,6 +9510,17 @@
                 bubbleDiv.innerHTML = paragraphs.join('');
                 
                 messageDiv.appendChild(bubbleDiv);
+
+                // Add timestamp for user messages
+                if (role === 'user') {
+                    const timestampDiv = document.createElement('div');
+                    timestampDiv.className = 'ai-chat-timestamp';
+                    const now = new Date();
+                    const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' });
+                    const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                    timestampDiv.textContent = `${dateStr} / ${timeStr}`;
+                    messageDiv.appendChild(timestampDiv);
+                }
 
                 // Add actions for assistant messages
                 if (role === 'assistant') {
