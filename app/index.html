@@ -1836,7 +1836,7 @@
             top: 110px;
             right: 0;
             width: 380px;
-            height: calc(100vh - 110px - 90px);
+            height: calc(100vh - 110px - 140px);
             overflow-y: auto;
             background: var(--bg-primary);
             border-left: 1px solid var(--border);
@@ -1928,7 +1928,7 @@
 
         /* Messages container with extra bottom padding for buttons */
         body.chat-open .ai-chat-scroll-container .ai-chat-messages {
-            padding: 16px 20px 200px !important;
+            padding: 16px 20px 60px !important;
         }
 
         .ai-chat-message {
@@ -1955,7 +1955,7 @@
 
         /* User message styling - forced */
         .ai-chat-panel ~ .ai-chat-scroll-container .ai-chat-message.user .ai-chat-bubble {
-            background: #e8e8e8 !important;
+            background: var(--bg-sidebar) !important;
             color: var(--text-primary);
             border-radius: 18px 18px 4px 18px;
             position: relative;
