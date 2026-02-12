@@ -1926,8 +1926,9 @@
             color: var(--text-primary);
         }
 
-        .ai-chat-messages {
-            padding: 16px 20px 150px;
+        /* Messages container with extra bottom padding for buttons */
+        body.chat-open .ai-chat-scroll-container .ai-chat-messages {
+            padding: 16px 20px 200px !important;
         }
 
         .ai-chat-message {
@@ -1952,8 +1953,9 @@
             line-height: 1.5;
         }
 
-        .ai-chat-message.user .ai-chat-bubble {
-            background: #f2f2f2 !important;
+        /* User message styling - forced */
+        .ai-chat-panel ~ .ai-chat-scroll-container .ai-chat-message.user .ai-chat-bubble {
+            background: #e8e8e8 !important;
             color: var(--text-primary);
             border-radius: 18px 18px 4px 18px;
             position: relative;
