@@ -1833,10 +1833,10 @@
 
         .ai-chat-scroll-container {
             position: fixed;
-            top: 100px;
+            top: 110px;
             right: 0;
             width: 380px;
-            height: calc(100vh - 100px - 140px);
+            height: calc(100vh - 110px - 140px);
             overflow-y: auto;
             background: var(--bg-primary);
             border-left: 1px solid var(--border);
@@ -1894,7 +1894,7 @@
             border-left: 1px solid var(--border);
             background: var(--bg-primary);
             position: fixed;
-            top: 40px;
+            top: 50px;
             right: 0;
             width: 380px;
             height: 60px;
@@ -2919,16 +2919,18 @@
 
         <!-- Main Content -->
         <main class="main" id="main">
-            <!-- Tabs Bar - Now at top -->
-            <div class="tabs-bar hidden" id="tabsBar">
-                <div class="sidebar-toggle-tab" id="sidebarToggleTab" title="Toggle Sidebar">
-                    <i class="ph ph-sidebar"></i>
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="btn btn-icon hide-desktop" id="menuBtn" title="Menu" style="color: var(--text-secondary);"><i class="ph ph-list"></i></button>
+                    <div class="breadcrumb" id="breadcrumb">
+                        <span class="breadcrumb-item" data-folder="root">All Notes</span>
+                    </div>
                 </div>
-                <div class="tabs-container" id="tabsContainer"></div>
-                <button class="tabs-new-btn" id="newTabBtn" title="New Note"><i class="ph ph-plus"></i></button>
-                <div style="flex: 1;"></div>
-                <button class="btn btn-icon" id="themeBtn" title="Toggle Theme" style="color: var(--text-secondary); padding: 6px 10px; margin-right: 12px;"><i class="ph ph-moon"></i></button>
-            </div>
+                <div class="header-right">
+                    <span class="header-title" id="headerTitle"></span>
+                    <button class="btn btn-icon" id="themeBtn" title="Toggle Theme" style="color: var(--text-secondary);"><i class="ph ph-moon"></i></button>
+                </div>
+            </header>
 
             <!-- AI Suggest Modal -->
             <div class="modal-overlay" id="aiSuggestModal">
@@ -3305,6 +3307,17 @@
                     </div>
                 </div>
 
+                <!-- Tabs Bar -->
+                <div class="tabs-bar hidden" id="tabsBar">
+                    <div class="sidebar-toggle-tab" id="sidebarToggleTab" title="Toggle Sidebar">
+                        <i class="ph ph-sidebar"></i>
+                    </div>
+                    <div class="tabs-container" id="tabsContainer"></div>
+                    <button class="tabs-new-btn" id="newTabBtn" title="New Note"><i class="ph ph-plus"></i></button>
+                    <div style="flex: 1;"></div>
+                    <button class="toolbar-btn" id="moreBtn" title="More" style="padding: 6px 10px; background: transparent; border: 1px solid var(--border); border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 14px; margin-right: 20px; align-self: center;"><i class="ph ph-dots-three"></i></button>
+                </div>
+
                 <!-- Note Menu Dropdown -->
                 <div class="note-menu-dropdown" id="noteMenuDropdown">
                     <div class="note-menu-fonts">
@@ -3378,8 +3391,6 @@
                                     <div class="tag-autocomplete" id="tagAutocomplete" style="display: none;"></div>
                                 </div>
                             </div>
-                            <div style="flex: 1;"></div>
-                            <button class="toolbar-btn" id="moreBtn" title="More" style="padding: 6px 10px; background: transparent; border: 1px solid var(--border); border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 14px;"><i class="ph ph-dots-three"></i></button>
                         </div>
                         
                         <!-- Note Tabs -->
@@ -5451,6 +5462,7 @@
                 console.log('Loading note content, length:', note.content?.length || 0);
                 console.log('Content preview:', note.content?.substring(0, 200) || 'EMPTY');
                 document.getElementById('wysiwygEditor').innerHTML = note.content || '';
+                document.getElementById('headerTitle').textContent = '';
 
                 // Update date
                 const date = new Date(note.updatedAt);
@@ -5590,6 +5602,7 @@
                 document.getElementById('tabsBar').classList.add('hidden');
                 document.getElementById('editorContentWrapper').classList.add('hidden');
                 document.getElementById('backlinksPanel').classList.add('hidden');
+                document.getElementById('headerTitle').textContent = '';
             }
 
             // ==================== TAG OPERATIONS ====================
@@ -6560,7 +6573,6 @@
 
             renderBreadcrumb() {
                 const breadcrumb = document.getElementById('breadcrumb');
-                if (!breadcrumb) return; // Element removed in new layout
                 if (!this.currentNote) {
                     breadcrumb.innerHTML = '<span class="breadcrumb-item" data-folder="root">All Notes</span>';
                     return;
@@ -6669,8 +6681,7 @@
 
                 // Update header title
                 const folder = this.data.folders.find(f => f.id === folderId);
-                const headerTitle = document.getElementById('headerTitle');
-                if (headerTitle) headerTitle.textContent = folder?.name || '';
+                document.getElementById('headerTitle').textContent = folder?.name || '';
             }
 
             filterByTag(tag) {
@@ -6702,7 +6713,7 @@
                     el.classList.toggle('active', el.dataset.tag === tag);
                 });
 
-                document.getElementById('headerTitle')?.textContent = `#${tag}`;
+                document.getElementById('headerTitle').textContent = `#${tag}`;
 
                 // Re-render tags to show active state
                 this.renderTagsCloud();
