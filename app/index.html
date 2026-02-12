@@ -1840,6 +1840,7 @@
             overflow-y: auto;
             background: var(--bg-primary);
             border-left: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
         .ai-chat-panel.hidden {
@@ -1919,6 +1920,8 @@
             padding: 4px;
             border-radius: var(--radius-sm);
             transition: all var(--transition);
+            position: relative;
+            z-index: 100;
         }
 
         .ai-chat-close:hover {
@@ -3497,7 +3500,7 @@
                         AI Assistant
                     </div>
                     <div style="display: flex; gap: 8px;">
-                        <button class="ai-chat-close" id="clearAiChat" title="Clear conversation">
+                        <button class="ai-chat-close" id="clearAiChat" title="Clear conversation" onclick="if(confirm('Are you sure you want to delete this conversation?')){window.app.clearAiChat();}">
                             <i class="ph ph-trash"></i>
                         </button>
                         <button class="ai-chat-close" id="closeAiChat" title="Close">
