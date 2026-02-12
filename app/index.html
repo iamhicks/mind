@@ -2164,23 +2164,23 @@
         #summaryText {
             white-space: pre-wrap;
             word-wrap: break-word;
-            line-height: 1.7;
+            line-height: 1.5;
         }
 
         #summaryText h1,
         #summaryText h2,
         #summaryText h3 {
-            margin: 16px 0 8px 0;
+            margin: 8px 0 4px 0;
             font-weight: 600;
             color: var(--text-primary);
         }
 
-        #summaryText h1 { font-size: 18px; }
-        #summaryText h2 { font-size: 16px; }
-        #summaryText h3 { font-size: 14px; }
+        #summaryText h1 { font-size: 16px; }
+        #summaryText h2 { font-size: 14px; }
+        #summaryText h3 { font-size: 13px; }
 
         #summaryText p {
-            margin: 8px 0;
+            margin: 2px 0;
         }
 
         #summaryText ul,
@@ -8608,11 +8608,12 @@
                 document.getElementById('summaryEmptyState').style.display = 'none';
                 document.getElementById('summaryResult').style.display = 'block';
                 
-                // Convert newlines to paragraphs for better readability
+                // Format summary with proper line breaks but minimal extra spacing
                 const formattedSummary = summary
+                    .replace(/\n\n+/g, '\n') // Remove excessive blank lines
                     .split('\n')
                     .filter(line => line.trim())
-                    .map(line => `<p>${line}</p>`)
+                    .map(line => `<p style="margin: 4px 0;">${line}</p>`)
                     .join('');
                 
                 document.getElementById('summaryText').innerHTML = formattedSummary;
