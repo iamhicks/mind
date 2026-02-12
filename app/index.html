@@ -2006,8 +2006,10 @@
             gap: 8px;
             border-top: 1px solid var(--border);
             flex-shrink: 0;
-            position: sticky;
+            position: absolute;
             bottom: 0;
+            left: 0;
+            right: 0;
             z-index: 10;
         }
 
@@ -9326,9 +9328,9 @@
                     // Show typing indicator
                     const typingId = this.showAiChatTyping();
 
-                    // Show loading - spinning robot head
+                    // Show loading - keep plane icon but disabled
                     aiChatSend.disabled = true;
-                    aiChatSend.innerHTML = '<i class="ph ph-robot ph-spin"></i>';
+                    aiChatSend.style.opacity = '0.5';
 
                     try {
                         const settings = JSON.parse(localStorage.getItem('kb_ai_settings') || '{}');
@@ -9355,7 +9357,7 @@
                         this.addAiChatMessage('assistant', 'Error: ' + error.message);
                     } finally {
                         aiChatSend.disabled = false;
-                        aiChatSend.innerHTML = '<i class="ph ph-paper-plane-right"></i>';
+                        aiChatSend.style.opacity = '1';
                     }
                 };
 
